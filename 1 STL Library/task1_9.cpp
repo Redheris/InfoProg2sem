@@ -8,33 +8,33 @@ bool odd(int x) {
 	return x % 2 == 0;
 }
 
-void print(list<int>& a) { // Вывод на экран всех элементов списка
+void print(list<int>& a) { // Р’С‹РІРѕРґ РЅР° СЌРєСЂР°РЅ РІСЃРµС… СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°
 	for (list<int>::iterator it = a.begin(); it != a.end(); it++)
 		cout << *it << " ";
 	cout << endl;
 }
 
 int main() {
-	// Данное число
+	// Р”Р°РЅРЅРѕРµ С‡РёСЃР»Рѕ
 	int x = 1111;
-	// Данная последовательность
+	// Р”Р°РЅРЅР°СЏ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊ
 	list<int> a = {1, 54, 12, 13, 0, 0, 12, 54, 50, 6, 7, 19, 54, 54, 19, 1};
 
 	cout << "Container: ";  print(a);
 	int max = *max_element(a.begin(), a.end());
 
-	a.remove(max); // Удаление максимлаьных эл-тов
+	a.remove(max); // РЈРґР°Р»РµРЅРёРµ РјР°РєСЃРёРјР»Р°СЊРЅС‹С… СЌР»-С‚РѕРІ
 	cout << "1. Delete Max(" << max << "): ";  print(a);
 
-	// Проход по чётным элементам последовательности
+	// РџСЂРѕС…РѕРґ РїРѕ С‡С‘С‚РЅС‹Рј СЌР»РµРјРµРЅС‚Р°Рј РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
 	for (list<int>::iterator it = find_if(a.begin(), a.end(), odd); it != a.end(); it = find_if(it, a.end(), odd)) { 
-		a.insert(++it, x); // Добавление X после эл-та
+		a.insert(++it, x); // Р”РѕР±Р°РІР»РµРЅРёРµ X РїРѕСЃР»Рµ СЌР»-С‚Р°
 	}
 	cout << "2. New elems: ";  print(a);
 
 	a.sort();
 	cout << "3. Sort: "; print(a);
 
-	a.erase(unique(a.begin(), a.end()), a.end()); // Удаление дубликатов
+	a.erase(unique(a.begin(), a.end()), a.end()); // РЈРґР°Р»РµРЅРёРµ РґСѓР±Р»РёРєР°С‚РѕРІ
 	cout << "4. Unique: "; print(a);
 }

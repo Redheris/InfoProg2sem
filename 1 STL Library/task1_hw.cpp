@@ -8,8 +8,8 @@
 using namespace std;
 
 template <typename T, typename Iter>
-// Вывод на экран всех эл-тов контейнера
-// Input: сам контейнер и его итератор begin()
+// Р’С‹РІРѕРґ РЅР° СЌРєСЂР°РЅ РІСЃРµС… СЌР»-С‚РѕРІ РєРѕРЅС‚РµР№РЅРµСЂР°
+// Input: СЃР°Рј РєРѕРЅС‚РµР№РЅРµСЂ Рё РµРіРѕ РёС‚РµСЂР°С‚РѕСЂ begin()
 void print(T& a, Iter it) {
 	for (; it != a.end(); it++)
 		cout << *it << " ";
@@ -26,20 +26,20 @@ bool larger(int x) {
 void task_1(vector<int>& a) {
 	cout << "1.\nInitial vector: "; print(a, a.begin());
 
-	// Сохранение 5-го эл-та и значения начального размера вектора
+	// РЎРѕС…СЂР°РЅРµРЅРёРµ 5-РіРѕ СЌР»-С‚Р° Рё Р·РЅР°С‡РµРЅРёСЏ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ СЂР°Р·РјРµСЂР° РІРµРєС‚РѕСЂР°
 	t = a[5];
 	int size = a.size();
 
-	// Сдвиг эл-тов, равных 5-му, в конец вектора
+	// РЎРґРІРёРі СЌР»-С‚РѕРІ, СЂР°РІРЅС‹С… 5-РјСѓ, РІ РєРѕРЅРµС† РІРµРєС‚РѕСЂР°
 	for (int i = 0; i < count(a.begin(), a.end(), t); ++i) {
-		a.push_back(*find(a.begin(), a.end(), t)); // Добавление копии в конец
-		a.erase(find(a.begin(), a.end(), t)); // Удаление эл-та
+		a.push_back(*find(a.begin(), a.end(), t)); // Р”РѕР±Р°РІР»РµРЅРёРµ РєРѕРїРёРё РІ РєРѕРЅРµС†
+		a.erase(find(a.begin(), a.end(), t)); // РЈРґР°Р»РµРЅРёРµ СЌР»-С‚Р°
 	}
 
-	// Сдвиг эл-тов, больших t, в конец вектора
+	// РЎРґРІРёРі СЌР»-С‚РѕРІ, Р±РѕР»СЊС€РёС… t, РІ РєРѕРЅРµС† РІРµРєС‚РѕСЂР°
 	for (int i = 0; i < count_if(a.begin(), a.end(), larger); ++i) {
-		a.push_back(*find_if(a.begin(), a.end(), larger)); // Добавление копии в конец
-		a.erase(find_if(a.begin(), a.end(), larger)); // Удаление эл-та
+		a.push_back(*find_if(a.begin(), a.end(), larger)); // Р”РѕР±Р°РІР»РµРЅРёРµ РєРѕРїРёРё РІ РєРѕРЅРµС†
+		a.erase(find_if(a.begin(), a.end(), larger)); // РЈРґР°Р»РµРЅРёРµ СЌР»-С‚Р°
 	}
 	
 	cout << "Changed vector: "; print(a, a.begin());
@@ -48,11 +48,11 @@ void task_1(vector<int>& a) {
 void task_2(list<int>& a) {
 	cout << "2.\nInitial list: "; print(a, a.begin());
 	
-	// Сдвиг первого максимального эл-та в начало
+	// РЎРґРІРёРі РїРµСЂРІРѕРіРѕ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ СЌР»-С‚Р° РІ РЅР°С‡Р°Р»Рѕ
 	a.insert(a.begin(), *max_element(a.begin(), a.end()));
 	a.erase(max_element(++a.begin(), a.end()));
 	
-	// Сдвиг остальных эл-тов
+	// РЎРґРІРёРі РѕСЃС‚Р°Р»СЊРЅС‹С… СЌР»-С‚РѕРІ
 	rotate(++a.begin(), --a.end(), a.end());
 	/*a.insert(++a.begin(), *--a.end());
 	a.erase(--a.end());*/
@@ -63,7 +63,7 @@ void task_2(list<int>& a) {
 void task_3(vector<int>& a) {
 	cout << "3.\nInitial vector: "; print(a, a.begin());
 
-	// Преобразование в кучу
+	// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ РєСѓС‡Сѓ
 	make_heap(a.begin(), a.end());
 
 	cout << "Changed vector: "; print(a, a.begin());
@@ -79,13 +79,13 @@ void task_5(char s[]) {
 	set<char> a;
 
 	cout << "\n4.\nInitial string: ";
-	for (int i = 0; i < 20; ++i) { // Вывод данной строки и запись эл-тов в множество
+	for (int i = 0; i < 20; ++i) { // Р’С‹РІРѕРґ РґР°РЅРЅРѕР№ СЃС‚СЂРѕРєРё Рё Р·Р°РїРёСЃСЊ СЌР»-С‚РѕРІ РІ РјРЅРѕР¶РµСЃС‚РІРѕ
 		cout << s[i] << " ";
 		a.insert(s[i]);
 	}
 
 	cout << "\nSet: "; print(a, a.begin());
-	// Количество различных букв в слове есть размер получившегося множества
+	// РљРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·Р»РёС‡РЅС‹С… Р±СѓРєРІ РІ СЃР»РѕРІРµ РµСЃС‚СЊ СЂР°Р·РјРµСЂ РїРѕР»СѓС‡РёРІС€РµРіРѕСЃСЏ РјРЅРѕР¶РµСЃС‚РІР°
 	cout << "Num of diff letters: " << a.size() << endl;
 }
 

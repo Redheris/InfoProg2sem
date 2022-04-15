@@ -6,11 +6,11 @@
 
 using namespace std;
 
-// Мн-ва для слов повествовательных, восклиц. и вопросит. предложений
+// РњРЅ-РІР° РґР»СЏ СЃР»РѕРІ РїРѕРІРµСЃС‚РІРѕРІР°С‚РµР»СЊРЅС‹С…, РІРѕСЃРєР»РёС†. Рё РІРѕРїСЂРѕСЃРёС‚. РїСЂРµРґР»РѕР¶РµРЅРёР№
 set<string> narrative, exclam, question;
 
 
-// Вывод всех эл-тов множества
+// Р’С‹РІРѕРґ РІСЃРµС… СЌР»-С‚РѕРІ РјРЅРѕР¶РµСЃС‚РІР°
 void print(set<string>& a) {
 	for (auto it = a.begin(); it != a.end(); it++) {
 		cout << *it << ", ";
@@ -18,12 +18,12 @@ void print(set<string>& a) {
 	cout << endl;
 }
 
-// Проверка наличия слова в воскл. или вопр. предл-ях
+// РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ СЃР»РѕРІР° РІ РІРѕСЃРєР». РёР»Рё РІРѕРїСЂ. РїСЂРµРґР»-СЏС…
 bool notInclude(string s) {
 	return exclam.find(s) != exclam.end() || question.find(s) != question.end();
 }
 
-// Перевод строки в нижний регистр
+// РџРµСЂРµРІРѕРґ СЃС‚СЂРѕРєРё РІ РЅРёР¶РЅРёР№ СЂРµРіРёСЃС‚СЂ
 string stringToLower(string s) {
 	for (char &c : s) {
 		c = tolower(c);
@@ -31,20 +31,20 @@ string stringToLower(string s) {
 	return s;
 }
 
-// Разделение предложения на слова по разделителю и добавление их в мн-во
+// Р Р°Р·РґРµР»РµРЅРёРµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ РЅР° СЃР»РѕРІР° РїРѕ СЂР°Р·РґРµР»РёС‚РµР»СЋ Рё РґРѕР±Р°РІР»РµРЅРёРµ РёС… РІ РјРЅ-РІРѕ
 void addSplit(string s, char del, set<string>& res) {
-	// Начало первого слова
+	// РќР°С‡Р°Р»Рѕ РїРµСЂРІРѕРіРѕ СЃР»РѕРІР°
 	int n = s.find_first_not_of(' ');
 
 	while (s.find(del, n) != string::npos) {
-		// Слово предложения
+		// РЎР»РѕРІРѕ РїСЂРµРґР»РѕР¶РµРЅРёСЏ
 		string temp = s.substr(n, s.find(del, n) - n);
 
-		// Добавление в мн-во ненулевых слов
+		// Р”РѕР±Р°РІР»РµРЅРёРµ РІ РјРЅ-РІРѕ РЅРµРЅСѓР»РµРІС‹С… СЃР»РѕРІ
 		if (temp.length() > 0)
 			res.insert(temp);
 
-		// Индекс начала следующего слова
+		// РРЅРґРµРєСЃ РЅР°С‡Р°Р»Р° СЃР»РµРґСѓСЋС‰РµРіРѕ СЃР»РѕРІР°
 		n = s.find(del, n + 1) + 1;
 	}
 }
@@ -53,25 +53,25 @@ void addSplit(string s, char del, set<string>& res) {
 int main() {
 	setlocale(LC_ALL, "RUS");
 
-	// Данный текст
+	// Р”Р°РЅРЅС‹Р№ С‚РµРєСЃС‚
 	string text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor? Incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris! Nisi ut aliquip ex ea commodo consequat? Duis aute irure dolor in reprehenderit in voluptate? Velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-	// Удаление из текста знаков пунктуации
+	// РЈРґР°Р»РµРЅРёРµ РёР· С‚РµРєСЃС‚Р° Р·РЅР°РєРѕРІ РїСѓРЅРєС‚СѓР°С†РёРё
 	for (char c : ",:;-")
 		while (text.find(c) != string::npos)
 			text.erase(text.find(c), 1);
 
-	cout << "Повествовательные предложения:" << endl;
+	cout << "РџРѕРІРµСЃС‚РІРѕРІР°С‚РµР»СЊРЅС‹Рµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ:" << endl;
 
 	
 	while (text.find_first_of(".?!") != string::npos) {
-		// Последний символ предложения
+		// РџРѕСЃР»РµРґРЅРёР№ СЃРёРјРІРѕР» РїСЂРµРґР»РѕР¶РµРЅРёСЏ
 		int i = text.find_first_of("?!.");
 
-		// Предложение текста
+		// РџСЂРµРґР»РѕР¶РµРЅРёРµ С‚РµРєСЃС‚Р°
 		string temp = stringToLower(text.substr(0, i));
 		
-		// Распределение слов по мн-вам
+		// Р Р°СЃРїСЂРµРґРµР»РµРЅРёРµ СЃР»РѕРІ РїРѕ РјРЅ-РІР°Рј
 		if (text[i] == '.') {
 			cout << text.substr(0, i + 1) << endl;
 			addSplit(temp, ' ', narrative);
@@ -81,14 +81,14 @@ int main() {
 		else
 			addSplit(temp, ' ', question);
 
-		text.erase(0, i + 1); // Удаление предложения из текста
+		text.erase(0, i + 1); // РЈРґР°Р»РµРЅРёРµ РїСЂРµРґР»РѕР¶РµРЅРёСЏ РёР· С‚РµРєСЃС‚Р°
 	}
 	
-	// Удаление из мн-ва слов повеств. предложений слов, встречающихся в воскл. и вопр. предложениях
+	// РЈРґР°Р»РµРЅРёРµ РёР· РјРЅ-РІР° СЃР»РѕРІ РїРѕРІРµСЃС‚РІ. РїСЂРµРґР»РѕР¶РµРЅРёР№ СЃР»РѕРІ, РІСЃС‚СЂРµС‡Р°СЋС‰РёС…СЃСЏ РІ РІРѕСЃРєР». Рё РІРѕРїСЂ. РїСЂРµРґР»РѕР¶РµРЅРёСЏС…
 	for (set<string>::iterator it = find_if(narrative.begin(), narrative.end(), notInclude); it != narrative.end(); it = find_if(it, narrative.end(), notInclude)) {
 		narrative.erase(it++);
 	}
 	
-	cout << "\n(" << narrative.size() << ") Слова, встречающиеся только в повеств. предложениях:" << endl;
+	cout << "\n(" << narrative.size() << ") РЎР»РѕРІР°, РІСЃС‚СЂРµС‡Р°СЋС‰РёРµСЃСЏ С‚РѕР»СЊРєРѕ РІ РїРѕРІРµСЃС‚РІ. РїСЂРµРґР»РѕР¶РµРЅРёСЏС…:" << endl;
 	print(narrative);
 }
