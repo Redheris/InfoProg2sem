@@ -87,6 +87,96 @@ void gnome_sort(int(&arr)[7][7]) {
 	}
 }
 
+/*
+3 5 1 2 4 6
+
+3 5 1 2 4 6
+  . .
+3 1 5 2 4 6
+      . .
+3 1 5 2 4 6
+. .
+1 3 5 2 4 6
+    . .
+1 3 2 5 4 6
+        . .
+1 3 2 5 4 6
+  . .
+1 2 3 5 4 6
+      . .
+1 2 3 4 5 6
+*/
+// 12. Сортировка чет-нечет
+void sort_even_odd(vector<int>& vec) {
+	int N = vec.size();
+	for (int i = 0; i < N - 1; ++i) {
+		// Если индекс элемента чётный
+		if (i % 2 == 0) {
+			for (int j = 2; j < N; j += 2)
+				if (vec[j - 1] > vec[j])
+					swap(vec[j - 1], vec[j]);
+		}
+		// Если индекс элемента нечётный
+		else {
+			for (int j = 1; j < N; j += 2)
+				if (vec[j - 1] > vec[j])
+					swap(vec[j - 1], vec[j]);
+		}
+	}
+}
+
+// Сортировка диагоналей
+void sort_diagonals(int(&arr)[7][7]) {
+	int N = 7;
+	// Цикл для каждой диагонали (2 за цикл)
+	for (int k = 0; k < N - 1; ++k) {
+
+		// Диагонали под главной
+
+		vector<int> diag; // Рассматриваемая диагональ
+
+		// Запись диагонали в вектор
+		for (int i = 0; i < N; ++i) {
+			if (k + i < N)
+				diag.push_back(arr[i][k + i]);
+		}
+
+		// Вызов сортировки
+		sort_even_odd(diag);
+		int L = 0;
+
+		// Запись в диагональ исходного массива
+		// остортированного вектора
+		for (int i = 0; i < N - k; ++i) {
+			if (k - i < N) {
+				arr[i][k + i] = diag.at(L++);
+			}
+		}
+
+		// Диагонали над главной
+		diag.clear();
+
+		// Запись диагонали в вектор
+		for (int j = 0; j < N; ++j) {
+			if (k + j < N)
+				diag.push_back(arr[k + j][j]);
+		}
+
+
+		// Вызов сортировки
+		sort_even_odd(diag);
+
+		L = 0;
+		// Запись в диагональ исходного массива
+		// остортированного вектора
+		for (int j = 0; j < N; ++j) {
+			if (k + j < N)
+				arr[k + j][j] = diag[L++];
+		}
+		diag.clear();
+	}
+}
+
 
 int main() {
 	setlocale(LC_ALL, "RUS");
@@ -101,7 +191,7 @@ int main() {
 		}
 		cout << endl;
 	}
-	cout << "Номер задания:\n 1 - Подсчётом\n 2 - Гномья\n 3 - " << endl;
+	cout << "Номер задания:\n 1 - Подсчётом\n 2 - Гномья\n 3 - Чет-нечет" << endl;
 	int flag;
 	cin >> flag;
 	switch (flag) {
@@ -112,7 +202,7 @@ int main() {
 		gnome_sort(arr);
 		break;
 	case 3:
-		
+		sort_diagonals(arr);
 		break;
 	}
 
