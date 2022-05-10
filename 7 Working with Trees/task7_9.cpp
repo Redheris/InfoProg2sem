@@ -2,95 +2,89 @@
 
 using namespace std;
 
-struct tree {
-	int inf;
-	tree* right;
-	tree* left;
-	tree* parent;
+// Структура дерева
+struct tree
+{
+	int inf;		// Значение
+	tree *right;	// Правый ребёнок
+	tree *left;		// Левый ребёнок
+	tree *parent;	// Родитель
 };
 
-tree* node(int x) {
-	tree* n = new tree;
-	n->inf = x;
-	n->left = n->right = NULL;
-	n->parent = NULL;
+// Создание узла
+tree *node(int x) {
+	tree *n = new tree;			// Новое дерево
+	n->inf = x;					// Значение
+	n->left = n->right = NULL;	// Дети
+	n->parent = NULL;			// Родитель
 	return n;
 }
 
-void insert(tree*& tr, int x) {
-	tree* n = node(x);
-	if (!tr)
+// Добавление нового элемента в дерево
+void insert(tree *&tr, int x) {
+	tree *n = node(x);					// Новый элемент
+	if (!tr)							// Дерево пустое
 		tr = n;
 	else {
-		tree* y = tr;
+		tree *y = tr;					// Указатель на корень
 		while (y) {
-			if (n->inf > y->inf)
-				if (y->right)
-					y = y->right;
+			if (n->inf < y->inf)		// Новый элемент меньше корня
+				if (y->left)			// Есть левый ребёнок
+					y = y->left;		// Переходим на него
 				else {
-					n->parent = y;
-					y->right = n;
-					break;
-				}
-			else if (n->inf < y->inf)
-				if (y->left)
-					y = y->left;
-				else {
-					n->parent = y;
+					n->parent = y;		// Новый элемент - левый ребёнок корня
 					y->left = n;
 					break;
 				}
+			else						// Новый элемент не меньше корня
+				if (y->right)			// Есть правый ребёнок
+					y = y->right;		// Переходим на него
+				else {
+					n->parent = y;		// Новый элемент - правый ребёнок корня
+					y->right = n;
+					break;
+				}
+
 		}
 	}
 }
 
-void print(tree* tr) {
+// Вывод симметричным обходом
+void inorder(tree *tr) {
 	if (tr) {
-		print(tr->left);
-		cout << tr->inf << " ";
-		print(tr->right);
+		inorder(tr->left);		// Рекурсия для левого поддерева
+		cout << tr->inf << " ";	// Вывод корня
+		inorder(tr->right);		// Рекурсия для правого поддерева
 	}
 }
 
-void task(tree* tr, tree* X) {
-	tree* y = tr;
+// Задание
+void task(tree *tr, tree *X) {
+	tree *y = tr;					// Указатель на корень
 	int n = 0;
 	while (y != X) {
-		cout << y->inf << " -> ";
-		if (X->inf > y->inf)
-			y = y->right;
-		else
+		cout << y->inf << " -> ";	// Вывод шага пути
+		if (X->inf < y->inf)		// X меньше корня - идём влево
 			y = y->left;
+		else
+			y = y->right;
 	}
-	cout << y->inf << endl;
+	cout << y->inf << endl;			// Элемент X, конец пути
 }
 
-tree* find(tree* tr, int x) {
+// Поиск элемента по значению
+tree *find(tree *tr, int x) {
 	if (!tr || x == tr->inf)
 		return tr;
-	if (x < tr->inf)
+	if (x < tr->inf)				// X меньше корня - идём влево
 		return find(tr->left, x);
 	else
 		return find(tr->right, x);
 }
 
-tree* Min(tree* tr) {
-	if (!tr->left)
-		return tr;
-	else
-		return Min(tr->left);
-}
-
-tree* Max(tree* tr) {
-	if (!tr->right)
-		return tr;
-	else
-		return Max(tr->right);
-}
-
 int main() {
-	int n, X;
-	tree* tr = NULL;
+	int n, X;						// Кол-во элементов и находимый элемент
+	tree *tr = NULL;				// Создание дерева
 	cout << "n: ";  cin >> n;
 	cout << "X: "; cin >> X;
 
@@ -99,7 +93,7 @@ int main() {
 		cin >> t;
 		insert(tr, t);
 	}
-	print(tr);
+	inorder(tr);
 	cout << endl;
 	task(tr, find(tr, X));
 }

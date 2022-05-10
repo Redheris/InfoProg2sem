@@ -3,99 +3,70 @@
 
 using namespace std;
 
+// Структура дерева
 struct tree
 {
-   int inf;
-   tree *right;
-   tree *left;
+    int inf;        // Значение элемента
+    tree *right;    // Правый ребёнок
+    tree *left;     // Левый ребёнок
 };
 
+// Создание узла
 tree *node(int x) {
-   tree *n = new tree;
-   n->inf = x;
-   n->left = n->right = NULL;
-   return n;
+    tree *n = new tree;         // Новое дерево
+    n->inf = x;                 // Значение
+    n->left = n->right = NULL;  // Дети
+    return n;                   // Родитель
 }
 
+// Создать дерево
 void create(tree *&tr, int n) {
-   int x;
+    int x;
 
-   if (n > 0) {
-       cin >> x;
-       tr = node(x);
-       int nl = n / 2;
-       int nr = n - nl - 1;
-       create(tr->left, nl);
-       create(tr->right, nr);
-   }
+    if (n > 0) {
+        cin >> x;               // Значение элемента
+        tr = node(x);           // Создание элемента
+        int nl = n / 2;         // Кол-во эл-тов в левой ветке
+        int nr = n - nl - 1;    // Кол-во эл-тов в правой ветке
+        create(tr->left, nl);   // Вызов функции для левого ребёнка
+        create(tr->right, nr);  // Вызов функции для правого ребёнка
+    }
 }
 
-
+// Прямой обход
 void preorder(tree *tr) {
-   if (tr) {
-       cout << tr->inf << " ";
-       preorder(tr->left);
-       preorder(tr->right);
-   }
+    if (tr) {
+        cout << tr->inf << " "; // Вывод значение
+        preorder(tr->left);     // Рекурсия для левого ребёнка
+        preorder(tr->right);    // Рекурсия для правого ребёнка
+    }
 }
 
+// Высота левой ветки
 int lefth(tree *tr) {
-   int k = 0;
+    int k = 0;
 
-   while (tr) {
-       k++;
-       tr = tr->left;
-   }
-   return k - 1;
+    while (tr) {
+        k++;
+        tr = tr->left;  // Переход на левого ребёнка
+    }
+    return k - 1;
 }
 
+// Высота правой ветки
 int righth(tree *tr) {
-   int k = 0;
+    int k = 0;
 
-   while (tr) {
-       k++;
-       tr = tr->right;
-   }
-   return k - 1;
+    while (tr) {
+        k++;
+        tr = tr->right; // Переход на правого ребёнка
+    }
+    return k - 1;
 }
 
-void print(tree *tr, int k) {
-   if (!tr) cout << "Empty tree" << endl;
-   else {
-       queue<tree *> cur, next;
-       tree *r = tr;
-       cur.push(r);
-       int j = 0;
-       while (cur.size()) {
-           if (j == 0) {
-               for (int i = 0; i < (int)pow(2.0, k) - 1; ++i)
-                   cout << ' ';
-           }
-           tree *buf = cur.front();
-           cur.pop();
-           j++;
-           if (buf) {
-               cout << buf->inf;
-               next.push(buf->left);
-               next.push(buf->right);
-               for (int i = 0; i < (int)pow(2.0, k + 1) - 1; ++i)
-                   cout << ' ';
-           }
-           else {
-               for (int i = 0; i < (int)pow(2.0, k + 1) - 1; ++i)
-                   cout << ' ';
-               cout << ' ';
-           }
-           if (cur.empty()) {
-               cout << endl;
-               swap(cur, next);
-               j = 0;
-               k--;
-           }
-       }
-   }
-}
-void nodes_sum(tree* tr, int k, int curk, int& s) {
+// Сумма узлав на k-ом уровне
+// curk - данный уровень, s - сумма узлов
+void nodes_sum(tree *tr, int &k, int curk, int &s) {
    if (curk == k)
        s += tr->inf;
    else if (curk < k) {
@@ -109,16 +80,15 @@ void nodes_sum(tree* tr, int k, int curk, int& s) {
 int main() {
    tree* tr = NULL;
    int n, k, s = 0;
-   cout << "n: "; cin >> n;
-   cout << "k: "; cin >> k;
+   cout << "n: "; cin >> n;     // Кол-во элементов
+   cout << "k: "; cin >> k;     // Уровень k
 
    create(tr, n);
 
    cout << "Current tree:\n";
    preorder(tr);
-   print(tr, log((float)n)/log(2.0));
 
    nodes_sum(tr, k, 0, s);
 
-   cout << "Nodes on level k sum: " << s << endl;
+   cout << "Sum of nodes at level k: " << s << endl;
 }
