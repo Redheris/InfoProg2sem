@@ -1,25 +1,24 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
-#include<set>
 
 using namespace std;
 
 // Вывод списка смежности
 void printAdjList(vector<vector<int>> v) {
     cout << "\nCurrent graph:\n";
-    for (int i = 0; i < v.size(); ++i) {
+    for (int i = 0; i < v.size(); ++i) {    // Проход по вершинам графа
         cout << i << " | ";
-        for (int j : v[i])
+        for (int j : v[i])                  // Вывод смежных
             cout << j << " ";
         cout << endl;
     }
 }
 
 vector<vector<int>> makeAdjList(int N) {
-    vector<vector<int>> Gr;
-    Gr.resize(N);
-    cout << "Edges in the graph (x y):\n";
+    vector<vector<int>> Gr; // Список смежности
+    Gr.resize(N);           // Выделение памяти
+    cout << "Edges in the graph (x y) (0 0 to stop):\n";
     int x = -1, y = -1;
     // Пока пользователь не введёт "0 0"
     while (x != 0 || y != 0) {
@@ -34,7 +33,8 @@ vector<vector<int>> makeAdjList(int N) {
         Gr[x].push_back(y);
         Gr[y].push_back(x);
     }
-    for (auto i : Gr) {
+    // Сортировка и удаление дубликатов для каждой строки списка
+    for (auto &i : Gr) {
         sort(i.begin(), i.end());
         i.erase(unique(i.begin(), i.end()), i.end());
     }
@@ -48,11 +48,11 @@ void addEdge(vector<vector<int>> &Gr, int A, int B) {
         sort(Gr[A].begin(), Gr[A].end());   // Сортировка вершин в строке
 
         Gr[B].push_back(A);
-        sort(Gr[B].begin(), Gr[A].end());
+        sort(Gr[B].begin(), Gr[B].end());
     }
 }
 
-// Дан ориентированный граф. Вывести количество вершин, смежных с данной
+// Дан неориентированный граф. Вставить в граф ребро, соединяющее вершины A и B
 int main() {
     int N, A, B;
     vector<vector<int>> Gr;

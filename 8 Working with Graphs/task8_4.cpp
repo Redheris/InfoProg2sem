@@ -40,22 +40,43 @@ vector<vector<int>> makeAdjList(int N) {
     return Gr;
 }
 
-void outDegrees(vector<vector<int>> &Gr) {
-    cout << endl;
-    for (int i = 0; i < Gr.size(); ++i)
-        // Возврващаем длину i-ой строки списка смежности
-        cout << i << " | " << Gr[i].size() << endl;;
+// Обход в глубину
+void depthBypass(vector<vector<int>> &Gr, int *&used, int x) {
+    used[x] = 1;    // Помечаем вершину x посещённой
+    
+    for (int i : Gr[x]) {
+        if (used[i] == 0) {
+            depthBypass(Gr, used, i);
+        }
+    }
 }
 
-// Дан ориентированный граф. Подсчитать полустепень исхода каждой вершины
+// Дан ориентированный граф. Вывести все вершины, недостижимые из данной
 int main() {
-    int N;
+    int N, X;
     vector<vector<int>> Gr;
     cout << "Num of nodes: "; cin >> N;
+    int *used = new int[N];
 
     Gr = makeAdjList(N);
 
     printAdjList(Gr);
 
-    outDegrees(Gr);
+    cout << "\nX: "; cin >> X;
+    depthBypass(Gr, used, X);
+
+    // Выводим непосещённые вершины
+    for (int i = 0; i < N; ++i) {
+        if (used[i] != 1)
+            cout << i << " ";
+    }
 }
+
+// Для примера
+// 1 6 
+// 2 3
+// 3 2
+// 3 1
+// 4 6
+// 6 5
+// 0 0

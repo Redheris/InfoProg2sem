@@ -4,6 +4,17 @@
 
 using namespace std;
 
+// Вывод списка смежности
+void printAdjList(vector<vector<int>> v) {
+    cout << "\nCurrent graph:\n";
+    for (int i = 0; i < v.size(); ++i) {    // Проход по вершинам графа
+        cout << i << " | ";
+        for (int j : v[i])                  // Вывод смежных
+            cout << j << " ";
+        cout << endl;
+    }
+}
+
 vector<vector<int>> makeAdjList(int N) {
     vector<vector<int>> Gr; // Список смежности
     Gr.resize(N);           // Выделение памяти
@@ -18,10 +29,11 @@ vector<vector<int>> makeAdjList(int N) {
         // Ограничения для входных данных
         if (x > N || y > N || x == y)
             continue;
+        
         Gr[x].push_back(y);
     }
     // Сортировка и удаление дубликатов для каждой строки списка
-    for (auto i : Gr) {
+    for (auto &i : Gr) {
         sort(i.begin(), i.end());
         i.erase(unique(i.begin(), i.end()), i.end());
     }
@@ -29,7 +41,8 @@ vector<vector<int>> makeAdjList(int N) {
 }
 
 int getAdjsNodesNum(vector<vector<int>> Gr, int n) {
-    int k = Gr[n].size(); // Длина списка смежности вершины
+    int k = Gr[n].size(); // =Длине списка смежности вершины
+    
     for (int i = 0; i < Gr.size(); ++i) {
         for (int j : Gr[i])
             if (j == n) {
@@ -49,6 +62,8 @@ int main() {
     cout << "Num of nodes: "; cin >> N;
 
     Gr = makeAdjList(N);
+
+    printAdjList(Gr);
 
     cout << "Node X: "; cin >> X;
 

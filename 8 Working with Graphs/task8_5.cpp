@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<queue>
 #include<algorithm>
 
 using namespace std;
@@ -40,22 +41,56 @@ vector<vector<int>> makeAdjList(int N) {
     return Gr;
 }
 
-void outDegrees(vector<vector<int>> &Gr) {
+// Обход в глубину
+void widthBypass(vector<vector<int>> &Gr, vector<int> &used, int x = 0) {
+    vector<int> path;
+    queue<int> que;
+    used[x] = 1;        // Помечаем вершину x посещённой
+    path.push_back(x);
+    que.push(x);
+
+    while (!que.empty()) {
+        int y = que.front();
+        que.pop();
+        for (int i = 0; i < Gr[y].size(); ++i) {
+            if (used[Gr[y][i]] == 0) {
+                used[Gr[y][i]] = 1;    // Помечаем вершину x посещённой
+                path.push_back(Gr[y][i]);
+                que.push(Gr[y][i]);
+            }
+        }
+    }
+
+    for (int i : path)
+        if (Gr[i].size() == Gr.size() - 1)
+            cout << i << " ";
     cout << endl;
-    for (int i = 0; i < Gr.size(); ++i)
-        // Возврващаем длину i-ой строки списка смежности
-        cout << i << " | " << Gr[i].size() << endl;;
 }
 
-// Дан ориентированный граф. Подсчитать полустепень исхода каждой вершины
+// Дан ориентированный граф. Вывести все истоки графа
 int main() {
-    int N;
+    int N, X;
     vector<vector<int>> Gr;
+    vector<int> used;
     cout << "Num of nodes: "; cin >> N;
+    used.resize(N);
 
     Gr = makeAdjList(N);
 
     printAdjList(Gr);
 
-    outDegrees(Gr);
+    cout << "\nOrigins:\n";
+    widthBypass(Gr, used);
 }
+
+// Для примера
+// 0 1
+// 0 2
+// 0 3
+// 2 1
+// 2 3
+// 1 2
+// 1 0
+// 3 0
+// 3 2
+// 3 1
