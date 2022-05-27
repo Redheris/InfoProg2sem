@@ -43,10 +43,11 @@ vector<vector<int>> makeAdjList(int N) {
 
 // Обход в глубину
 void widthBypass(vector<vector<int>> &Gr, vector<int> &used, int x = 0) {
-    vector<int> path;
+    // Массив кратчайших путей для каждой вершины
+    vector<int> *path = new vector<int>[Gr.size()];
     queue<int> que;
     used[x] = 1;        // Помечаем вершину x посещённой
-    path.push_back(x);
+    path[x].push_back(x);
     que.push(x);
 
     while (!que.empty()) {
@@ -55,19 +56,28 @@ void widthBypass(vector<vector<int>> &Gr, vector<int> &used, int x = 0) {
         for (int i = 0; i < Gr[y].size(); ++i) {
             if (used[Gr[y][i]] == 0) {
                 used[Gr[y][i]] = 1;    // Помечаем вершину x посещённой
-                path.push_back(Gr[y][i]);
                 que.push(Gr[y][i]);
+                // Добавляем к пути путь до предыдущей точки
+                path[Gr[y][i]].insert(path[Gr[y][i]].end(), path[y].begin(), path[y].end());
+                // Добавляем саму вершину в путь
+                path[Gr[y][i]].push_back(Gr[y][i]);
             }
         }
     }
 
-    for (int i : path)
-        if (Gr[i].size() == Gr.size() - 1)
-            cout << i << " ";
-    cout << endl;
+    // Вывод всех кратчайших путей
+    for (int i = 0; i < Gr.size(); ++i) {
+        cout << i << " | ";
+        for (auto j = path[i].begin(); j != path[i].end(); j++) {
+            cout << *j;
+            if (j + 1 != path[i].end())
+                cout << " -> ";
+        }
+            cout << endl;
+    }
 }
 
-// Дан ориентированный граф. Вывести все истоки графа
+// Дан ориентированный граф. Вывести кратчайшие пути от до каждой точки
 int main() {
     int N, X;
     vector<vector<int>> Gr;
@@ -79,18 +89,21 @@ int main() {
 
     printAdjList(Gr);
 
-    cout << "\nOrigins:\n";
+    cout << "\nShortest paths:\n";
     widthBypass(Gr, used);
 }
 
-// Для примера
-// 0 1
-// 0 2
-// 0 3
-// 2 1
-// 2 3
-// 1 2
-// 1 0
-// 3 0
-// 3 2
-// 3 1
+/* Для примера
+0 1
+0 4
+1 3
+1 5
+2 1
+2 7
+3 6
+3 2
+4 5
+6 2
+7 2
+0 0
+*/
