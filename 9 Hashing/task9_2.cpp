@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Структура даты
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР°С‚С‹
 struct date
 {
     int day;
@@ -13,20 +13,20 @@ struct date
     int year;
 };
 
-// Структура сотрудника
+// РЎС‚СЂСѓРєС‚СѓСЂР° СЃРѕС‚СЂСѓРґРЅРёРєР°
 struct employee
 {
-    string surname;		// Фамилия
-    string post;		// Должность
-    date dateBirth;		// Дата рождения
-    int exp;			// Стаж
-    int salary;			// Зарплата
+    string surname;		// Р¤Р°РјРёР»РёСЏ
+    string post;		// Р”РѕР»Р¶РЅРѕСЃС‚СЊ
+    date dateBirth;		// Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ
+    int exp;			// РЎС‚Р°Р¶
+    int salary;			// Р—Р°СЂРїР»Р°С‚Р°
 };
 
 
-// ==== Функции для структуры работника и даты ====
+// ==== Р¤СѓРЅРєС†РёРё РґР»СЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ СЂР°Р±РѕС‚РЅРёРєР° Рё РґР°С‚С‹ ====
 
-// Преобразование строки в структуру даты
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ РґР°С‚С‹
 date makeDate(string &s) {
     date date;
     date.day = atoi(s.substr(0, 2).c_str());
@@ -36,26 +36,26 @@ date makeDate(string &s) {
     return date;
 }
 
-// Преобразование структуры даты в строку
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ РґР°С‚С‹ РІ СЃС‚СЂРѕРєСѓ
 string dateStr(date &date) {
     return to_string(date.day) + "." + to_string(date.month) + "." + to_string(date.year);
 }
 
-// Преобразование структуры сотрудника в строку
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ СЃРѕС‚СЂСѓРґРЅРёРєР° РІ СЃС‚СЂРѕРєСѓ
 string employeeStr(employee empl) {
     return empl.surname + ", " + empl.post + ", " + dateStr(empl.dateBirth)
         + ", " + to_string(empl.exp) + ", " + to_string(empl.salary);
 }
 
-// Преобразование строки в структуру сотрудника
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ СЃРѕС‚СЂСѓРґРЅРёРєР°
 employee emplFromString(string &s) {
     employee empl;
-    vector<string> parts;	// Разделённая по пробелам строка
+    vector<string> parts;	// Р Р°Р·РґРµР»С‘РЅРЅР°СЏ РїРѕ РїСЂРѕР±РµР»Р°Рј СЃС‚СЂРѕРєР°
 
-    // n - начало слова, i - конец слова
+    // n - РЅР°С‡Р°Р»Рѕ СЃР»РѕРІР°, i - РєРѕРЅРµС† СЃР»РѕРІР°
     for (int n = 0, i = s.find(' ', n); i <= string::npos; n = i + 1, i = s.find(' ', n)) {
 
-        if (i == string::npos) { // Последнее слово
+        if (i == string::npos) { // РџРѕСЃР»РµРґРЅРµРµ СЃР»РѕРІРѕ
             parts.push_back(s.substr(n, s.size() - n));
             break;
         }
@@ -75,9 +75,9 @@ employee emplFromString(string &s) {
 }
 
 
-// ==== Функции для хеш-таблицы ====
+// ==== Р¤СѓРЅРєС†РёРё РґР»СЏ С…РµС€-С‚Р°Р±Р»РёС†С‹ ====
 
-// Создание хеш-таблицы
+// РЎРѕР·РґР°РЅРёРµ С…РµС€-С‚Р°Р±Р»РёС†С‹
 void createHashTable(employee *&hashTable, int N, int M) {
     fstream in("task9_in.txt");
 
@@ -85,13 +85,13 @@ void createHashTable(employee *&hashTable, int N, int M) {
         string s;
         getline(in, s);
         employee empl = emplFromString(s);
-        // Вспомогательная хеш-функция
+        // Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ С…РµС€-С„СѓРЅРєС†РёСЏ
         int k = (int)(M * (empl.exp * 0.618034 - (int)(empl.exp * 0.618034)));
         int j = 0;
         for (int i = 0; i < M; ++i) {
-            // Основная хеш-функция
+            // РћСЃРЅРѕРІРЅР°СЏ С…РµС€-С„СѓРЅРєС†РёСЏ
             int p = (k + j + 2 * j * j) % M;
-            // Проверка наличия эл-та по значению стажу
+            // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ СЌР»-С‚Р° РїРѕ Р·РЅР°С‡РµРЅРёСЋ СЃС‚Р°Р¶Сѓ
             if (hashTable[p].exp == -1) {
                 hashTable[p] = empl;
                 break;
@@ -103,10 +103,10 @@ void createHashTable(employee *&hashTable, int N, int M) {
     in.close();
 }
 
-// Вывод хеш-таблицы
+// Р’С‹РІРѕРґ С…РµС€-С‚Р°Р±Р»РёС†С‹
 void printHashTable(employee *&hashTable, int M) {
     cout << "\nHash table:\n";
-    for (int i = 0; i < M; ++i) {		// Проход по строкам таблицы
+    for (int i = 0; i < M; ++i) {		// РџСЂРѕС…РѕРґ РїРѕ СЃС‚СЂРѕРєР°Рј С‚Р°Р±Р»РёС†С‹
         cout << i << " | ";
         if (hashTable[i].exp == -1)
             cout << "NULL\n";
@@ -116,11 +116,11 @@ void printHashTable(employee *&hashTable, int M) {
 }
 
 employee &find(employee *&hashTable, int M, employee empl) {
-    // Дополнительная хеш-функция
+    // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ С…РµС€-С„СѓРЅРєС†РёСЏ
     int k = (int)(M * (empl.exp * 0.618034 - (int)(empl.exp * 0.618034)));
     int j = 0;
     for (int i = 0; i < M; ++i) {
-        // Основная хеш-функция
+        // РћСЃРЅРѕРІРЅР°СЏ С…РµС€-С„СѓРЅРєС†РёСЏ
         int p = (k + j + 2 * j * j) % M;
         if (employeeStr(hashTable[p]) == employeeStr(empl)) {
             cout << "Index: " << p << endl;
@@ -132,26 +132,26 @@ employee &find(employee *&hashTable, int M, employee empl) {
 }
 
 
-// Закрытое хеширование.
-// Основная хеш-функция — квадратичное хеширование,
-// вспомогательная — метод умножения по стажу
+// Р—Р°РєСЂС‹С‚РѕРµ С…РµС€РёСЂРѕРІР°РЅРёРµ.
+// РћСЃРЅРѕРІРЅР°СЏ С…РµС€-С„СѓРЅРєС†РёСЏ вЂ” РєРІР°РґСЂР°С‚РёС‡РЅРѕРµ С…РµС€РёСЂРѕРІР°РЅРёРµ,
+// РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ вЂ” РјРµС‚РѕРґ СѓРјРЅРѕР¶РµРЅРёСЏ РїРѕ СЃС‚Р°Р¶Сѓ
 int main() {
     setlocale(LC_ALL, "RUS");
     int N = 20, M = 32;
     employee *hashTable = new employee[M];
-    // Заполнение эл-тов ключевым значением стажа
+    // Р—Р°РїРѕР»РЅРµРЅРёРµ СЌР»-С‚РѕРІ РєР»СЋС‡РµРІС‹Рј Р·РЅР°С‡РµРЅРёРµРј СЃС‚Р°Р¶Р°
     for (int i = 0; i < M; ++i)
         hashTable[i].exp = -1;
 
     createHashTable(hashTable, N, M);
     printHashTable(hashTable, M);
 
-    string tofind = "Иванов Менеджер 08.04.1953 18 32088";
+    string tofind = "РРІР°РЅРѕРІ РњРµРЅРµРґР¶РµСЂ 08.04.1953 18 32088";
     cout << "\nFind:\n" << tofind << endl;
     
     employee &found = find(hashTable, M, emplFromString(tofind));
 
-    // Просто пример, что находится не просто индекс в списке
+    // РџСЂРѕСЃС‚Рѕ РїСЂРёРјРµСЂ, С‡С‚Рѕ РЅР°С…РѕРґРёС‚СЃСЏ РЅРµ РїСЂРѕСЃС‚Рѕ РёРЅРґРµРєСЃ РІ СЃРїРёСЃРєРµ
     cout << endl << employeeStr(hashTable[7]) << endl;
     found.salary = 130;
     cout << employeeStr(hashTable[7]) << endl;

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Структура даты
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР°С‚С‹
 struct date
 {
 	int day;
@@ -13,17 +13,17 @@ struct date
 	int year;
 };
 
-// Структура сотрудника
+// РЎС‚СЂСѓРєС‚СѓСЂР° СЃРѕС‚СЂСѓРґРЅРёРєР°
 struct employee
 {
-	string surname;		// Фамилия
-	string post;		// Должность
-	date dateBirth;		// Дата рождения
-	int exp;			// Стаж
-	int salary;			// Зарплата
+	string surname;		// Р¤Р°РјРёР»РёСЏ
+	string post;		// Р”РѕР»Р¶РЅРѕСЃС‚СЊ
+	date dateBirth;		// Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ
+	int exp;			// РЎС‚Р°Р¶
+	int salary;			// Р—Р°СЂРїР»Р°С‚Р°
 };
 
-// Узел двусвязного списка
+// РЈР·РµР» РґРІСѓСЃРІСЏР·РЅРѕРіРѕ СЃРїРёСЃРєР°
 struct node
 {
 	employee inf;
@@ -31,7 +31,7 @@ struct node
 	node *next;
 };
 
-// Двусвязный список
+// Р”РІСѓСЃРІСЏР·РЅС‹Р№ СЃРїРёСЃРѕРє
 struct list
 {
 	node *head = NULL;
@@ -39,35 +39,35 @@ struct list
 };
 
 
-// ==== Функции для списка ====
+// ==== Р¤СѓРЅРєС†РёРё РґР»СЏ СЃРїРёСЃРєР° ====
 
-// Добавление в конец списка
+// Р”РѕР±Р°РІР»РµРЅРёРµ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°
 void push(list &empl, employee x) {
-	node *r = new node; // Создание нового элемента
+	node *r = new node; // РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
 	r->inf = x;
 	r->next = NULL;
 	r->prev = empl.tail;
-	if (!empl.head && !empl.tail) // Первый элемент
+	if (!empl.head && !empl.tail) // РџРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚
 		empl.head = r;
 	else
 		empl.tail->next = r;
-	empl.tail = r; // Перемещение хвоста на новый элемент
+	empl.tail = r; // РџРµСЂРµРјРµС‰РµРЅРёРµ С…РІРѕСЃС‚Р° РЅР° РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
 }
 
-// Удаление из списка
+// РЈРґР°Р»РµРЅРёРµ РёР· СЃРїРёСЃРєР°
 void del_node(list &empl, node *x) {
-	if (empl.head == empl.tail) {		// Единичный список
+	if (empl.head == empl.tail) {		// Р•РґРёРЅРёС‡РЅС‹Р№ СЃРїРёСЃРѕРє
 		empl.head = empl.tail = NULL;
 	}
-	else if (empl.head == x) {			// Удаление головы
+	else if (empl.head == x) {			// РЈРґР°Р»РµРЅРёРµ РіРѕР»РѕРІС‹
 		empl.head = empl.head->next;
 		empl.head->prev = NULL;
 	}
-	else if (empl.tail == x) {			// Удаление хвоста
+	else if (empl.tail == x) {			// РЈРґР°Р»РµРЅРёРµ С…РІРѕСЃС‚Р°
 		empl.tail = empl.tail->prev;
 		empl.tail->next = NULL;
 	}
-	else {								// Удаление из середины списка
+	else {								// РЈРґР°Р»РµРЅРёРµ РёР· СЃРµСЂРµРґРёРЅС‹ СЃРїРёСЃРєР°
 		x->prev->next = x->next;
 		x->next->prev = x->prev;
 	}
@@ -76,9 +76,9 @@ void del_node(list &empl, node *x) {
 }
 
 
-// ==== Функции для структуры работника и даты ====
+// ==== Р¤СѓРЅРєС†РёРё РґР»СЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ СЂР°Р±РѕС‚РЅРёРєР° Рё РґР°С‚С‹ ====
 
-// Преобразование строки в структуру даты
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ РґР°С‚С‹
 date makeDate(string &s) {
 	date date;
 	date.day = atoi(s.substr(0, 2).c_str());
@@ -88,26 +88,26 @@ date makeDate(string &s) {
 	return date;
 }
 
-// Преобразование структуры даты в строку
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ РґР°С‚С‹ РІ СЃС‚СЂРѕРєСѓ
 string dateStr(date &date) {
 	return to_string(date.day) + "." + to_string(date.month) + "." + to_string(date.year);
 }
 
-// Преобразование структуры сотрудника в строку
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂСѓРєС‚СѓСЂС‹ СЃРѕС‚СЂСѓРґРЅРёРєР° РІ СЃС‚СЂРѕРєСѓ
 string employeeStr(employee empl) {
 	return empl.surname + ", " + empl.post + ", " + dateStr(empl.dateBirth)
 		+ ", " + to_string(empl.exp) + ", " + to_string(empl.salary);
 }
 
-// Преобразование строки в структуру сотрудника
+// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ СЃРѕС‚СЂСѓРґРЅРёРєР°
 employee emplFromString(string &s) {
 	employee empl;
-	vector<string> parts;	// Разделённая по пробелам строка
+	vector<string> parts;	// Р Р°Р·РґРµР»С‘РЅРЅР°СЏ РїРѕ РїСЂРѕР±РµР»Р°Рј СЃС‚СЂРѕРєР°
 
-	// n - начало слова, i - конец слова
+	// n - РЅР°С‡Р°Р»Рѕ СЃР»РѕРІР°, i - РєРѕРЅРµС† СЃР»РѕРІР°
 	for (int n = 0, i = s.find(' ', n); i <= string::npos; n = i + 1, i = s.find(' ', n)) {
 
-		if (i == string::npos) { // Последнее слово
+		if (i == string::npos) { // РџРѕСЃР»РµРґРЅРµРµ СЃР»РѕРІРѕ
 			parts.push_back(s.substr(n, s.size() - n));
 			break;
 		}
@@ -127,34 +127,34 @@ employee emplFromString(string &s) {
 }
 
 
-// ==== Функции для хеш-таблицы ====
+// ==== Р¤СѓРЅРєС†РёРё РґР»СЏ С…РµС€-С‚Р°Р±Р»РёС†С‹ ====
 
-// Создание хеш-таблицы
+// РЎРѕР·РґР°РЅРёРµ С…РµС€-С‚Р°Р±Р»РёС†С‹
 void createHashTable(list *&A, int N, int M) {
 	fstream in("task9_in.txt");
 	for (int i = 0; i < N; ++i) {
 		string s;
 		getline(in, s);
 		employee x = emplFromString(s);
-		int k = x.dateBirth.day % M;		// Значение хеш-функции
-		push(A[k], x);						// Добавление в хеш-таблицу
+		int k = x.dateBirth.day % M;		// Р—РЅР°С‡РµРЅРёРµ С…РµС€-С„СѓРЅРєС†РёРё
+		push(A[k], x);						// Р”РѕР±Р°РІР»РµРЅРёРµ РІ С…РµС€-С‚Р°Р±Р»РёС†Сѓ
 	}
 	in.close();
 }
 
-// Вывод хеш-таблицы
+// Р’С‹РІРѕРґ С…РµС€-С‚Р°Р±Р»РёС†С‹
 void printHashTable(list *&hashTable, int M) {
 	cout << "\nHash table:\n";
-	for (int i = 0; i < M; ++i) {		// Проход по строкам таблицы
+	for (int i = 0; i < M; ++i) {		// РџСЂРѕС…РѕРґ РїРѕ СЃС‚СЂРѕРєР°Рј С‚Р°Р±Р»РёС†С‹
 
-		for (int j = 0; j < 30; ++j) {	// Визуально выделенный номер строки
+		for (int j = 0; j < 30; ++j) {	// Р’РёР·СѓР°Р»СЊРЅРѕ РІС‹РґРµР»РµРЅРЅС‹Р№ РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё
 			cout << "--";
 			if (j == 14) cout << i;
 		}
 		cout << endl << endl;
 
-		node *r = hashTable[i].head;	// Указатель на голову списка строки
-		while (r) {						// Проход по эл-там списка
+		node *r = hashTable[i].head;	// РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РіРѕР»РѕРІСѓ СЃРїРёСЃРєР° СЃС‚СЂРѕРєРё
+		while (r) {						// РџСЂРѕС…РѕРґ РїРѕ СЌР»-С‚Р°Рј СЃРїРёСЃРєР°
 			cout << "\t" << employeeStr(r->inf) << endl;
 			r = r->next;
 		}
@@ -163,11 +163,11 @@ void printHashTable(list *&hashTable, int M) {
 	}
 }
 
-// Поиск и удаление элемента в хеш-таблице
+// РџРѕРёСЃРє Рё СѓРґР°Р»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІ С…РµС€-С‚Р°Р±Р»РёС†Рµ
 void findNDel(list *&hashTable, int M, employee x) {
-	int k = x.dateBirth.day % M;	// Значения хеш-функции
-	node *r = hashTable[k].head;	// Указатель на голову
-	string str = employeeStr(x);	// Преобразование в строку для сравнения
+	int k = x.dateBirth.day % M;	// Р—РЅР°С‡РµРЅРёСЏ С…РµС€-С„СѓРЅРєС†РёРё
+	node *r = hashTable[k].head;	// РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РіРѕР»РѕРІСѓ
+	string str = employeeStr(x);	// РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РІ СЃС‚СЂРѕРєСѓ РґР»СЏ СЃСЂР°РІРЅРµРЅРёСЏ
 	while (r) {
 		if (employeeStr(r->inf) == str)
 			return del_node(hashTable[k], r);
@@ -175,7 +175,7 @@ void findNDel(list *&hashTable, int M, employee x) {
 	}
 }
 
-// Открытая хеш-таблица методом делителя по дню рождения
+// РћС‚РєСЂС‹С‚Р°СЏ С…РµС€-С‚Р°Р±Р»РёС†Р° РјРµС‚РѕРґРѕРј РґРµР»РёС‚РµР»СЏ РїРѕ РґРЅСЋ СЂРѕР¶РґРµРЅРёСЏ
 int main() {
 	setlocale(LC_ALL, "RUS");
 	int N = 20, M, a;
@@ -187,7 +187,7 @@ int main() {
 	createHashTable(A, N, M);
 	printHashTable(A, M);
 
-	string find = "Иванов Менеджер 08.04.1953 18 32088";
+	string find = "РРІР°РЅРѕРІ РњРµРЅРµРґР¶РµСЂ 08.04.1953 18 32088";
 	cout << "\nFind:\n" << find << endl;
 	findNDel(A, M, emplFromString(find));
 
